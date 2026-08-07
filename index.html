@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dana</title>
+<meta name="description" content="Notes and experiments in engineering, AI, and design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Baskerville:ital,wght@1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #161616;
+    --ink-soft: #5c5c5c;
+    --ink-faint: #9a9a9a;
+    --rule: #e6e4e0;
+    --avatar: #111;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #ffffff 0%, #f1f1ee 100%);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    max-width: 692px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+  }
+  em, i, .accent { font-family: 'Libre Baskerville', Georgia, serif; font-style: italic; }
+  code, .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  /* header */
+  .intro { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 0.6rem; margin-bottom: 2rem; }
+  .avatar {
+    position: relative;
+    width: 108px; height: 108px; border-radius: 36px; flex-shrink: 0;
+  }
+  .avatar::before {
+    content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(to bottom, #fff, var(--rule));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .avatar-inner {
+    position: absolute; inset: 1.5px;
+    border-radius: calc(36px - 1.5px); overflow: hidden;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .avatar-inner::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40%;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    mask-image: linear-gradient(to bottom, transparent, black 70%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 70%);
+  }
+  .intro h1 { font-family: 'Libre Baskerville', Georgia, serif; font-style: italic; font-size: 1.15rem; font-weight: 400; margin: 0; }
+  .intro p { margin: 0; color: var(--ink-faint); font-size: 0.95rem; }
+
+  p.lede {
+    font-size: 1.08rem;
+    color: var(--ink-faint);
+    margin: 0 0 1rem;
+  }
+  p.status {
+    font-size: 1.08rem; color: var(--ink);
+    margin: 0 0 3rem;
+  }
+  p.status a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .brand-logo {
+    height: 1em; width: auto; vertical-align: middle;
+    filter: grayscale(1);
+    margin: 0 0.15em;
+  }
+  .brand-logo.uxcel { height: 1.45em; margin-left: 0.55em; position: relative; top: -1px; }
+  .brand-logo.farmacare { height: 1.15em; position: relative; top: -4px; }
+  .brand-logo.samsung { height: 0.85em; margin-right: -0.15em; }
+  p.lede em {
+    color: var(--ink); font-weight: 400;
+    display: inline-block;
+    transition: transform 0.25s ease, filter 0.25s ease;
+  }
+  p.lede em:hover {
+    background: linear-gradient(90deg, #f0b078, #e8a49a, #c9a3c4, #a3aee0, #8fb8d9);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    transform: translateY(-4px);
+  }
+
+  section { margin-bottom: 3.25rem; }
+  section > h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 1.1rem;
+    font-weight: 500;
+    cursor: default;
+    display: inline-block;
+  }
+
+  .item { display: flex; align-items: center; gap: 0.9rem; padding: 0.9rem 0; border-bottom: 1px solid var(--rule); }
+  .item:last-child { border-bottom: none; }
+  .item-icon {
+    position: relative;
+    width: 60px; height: 60px; flex-shrink: 0;
+  }
+  .item-icon::before {
+    content: ""; position: absolute; z-index: 1; inset: 3px;
+    background: #f7f7f5; border: 1px solid var(--rule); border-radius: 12px;
+  }
+  .item-icon svg { width: 20px; height: 20px; color: var(--ink-faint); }
+  .item-icon-front {
+    position: absolute; z-index: 2; inset: 8px;
+    border: 1px solid var(--rule); border-radius: 8px;
+    background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .item-body { flex: 1 1 auto; min-width: 0; }
+  .item-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  .item a.title {
+    color: var(--ink); text-decoration: none;
+    font-weight: 500;
+  }
+  .item a.title:hover { text-decoration: underline; }
+  .item .date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; color: var(--ink-faint); white-space: nowrap;
+  }
+  .item .desc { margin: 0.3rem 0 0; color: var(--ink-soft); font-size: 0.94rem; }
+
+  footer {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--ink-faint);
+    display: flex; justify-content: space-between;
+  }
+  footer a { color: inherit; }
+
+  /* progressive blur: stacked layers, each blurrier and shorter than the last,
+     so the blur ramps up smoothly toward the edge instead of cutting off */
+  .edge-fade { position: fixed; left: 0; right: 0; height: 120px; z-index: 10; pointer-events: none; }
+  .edge-fade.top { top: 0; }
+  .edge-fade.bottom { bottom: 0; }
+  .edge-fade i {
+    position: absolute; left: 0; right: 0;
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    mask-image: linear-gradient(var(--dir), black, black 30%, transparent);
+    -webkit-mask-image: linear-gradient(var(--dir), black, black 30%, transparent);
+  }
+  .edge-fade.top i { top: 0; }
+  .edge-fade.bottom i { bottom: 0; }
+  .edge-fade i:nth-child(1) { height: 120px; --blur: 12px; }
+  .edge-fade i:nth-child(2) { height: 80px;  --blur: 8px; }
+  .edge-fade i:nth-child(3) { height: 45px;  --blur: 4px; }
+  .edge-fade.top { --dir: to bottom; }
+  .edge-fade.bottom { --dir: to top; }
+  .edge-fade::before {
+    content: ""; position: absolute; left: 0; right: 0; height: 100%;
+    background: linear-gradient(var(--dir), rgba(252,252,252,0.75), transparent);
+  }
+
+
+</style>
+</head>
+<body>
+<svg hidden aria-hidden="true">
+  <symbol id="icon-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <line x1="5" y1="8" x2="19" y2="8"></line>
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+    <line x1="5" y1="16" x2="14" y2="16"></line>
+  </symbol>
+  <symbol id="icon-notebook-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"></path>
+    <path d="M2 6h4"></path>
+    <path d="M2 10h4"></path>
+    <path d="M2 14h4"></path>
+    <path d="M2 18h4"></path>
+    <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"></path>
+  </symbol>
+</svg>
+<div class="edge-fade top"><i></i><i></i><i></i></div>
+<div class="edge-fade bottom"><i></i><i></i><i></i></div>
+<main>
+
+  <div class="intro">
+    <div class="avatar"><div class="avatar-inner"><img id="avatar-img" src="assets/avatar/Center.png" alt="Dana"></div></div>
+    <div>
+      <h1>Dana</h1>
+      <p>Design Systems Architect · Design Engineer · Experience Designer · DesignOps</p>
+    </div>
+  </div>
+
+  <p class="lede">
+    This is a running record of what I build and think about. I care about
+    <em>craft and quality</em> — small, well-made things over big, sloppy ones.
+    Mostly engineering, AI, and design experiments, written down as I go.
+  </p>
+
+  <p class="status">Currently at<img class="brand-logo farmacare" src="assets/logos/farmacare.svg" alt="Farmacare">· Trusted by<img class="brand-logo samsung" src="assets/logos/samsung.svg" alt="Samsung">,<img class="brand-logo uxcel" src="assets/logos/uxcel.svg" alt="Uxcel">&amp; <a href="https://www.linkedin.com/in/iputudanaputra/" target="_blank" rel="noopener">beyond</a>.</p>
+
+  <section>
+    <h2>Projects</h2>
+
+    <div class="item">
+      <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-doc"></use></svg></div></div>
+      <div class="item-body">
+        <div class="item-row">
+          <a class="title" href="#">Project One</a>
+          <span class="date mono">2026</span>
+        </div>
+        <p class="desc">One-line description of what it is and why it exists.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-doc"></use></svg></div></div>
+      <div class="item-body">
+        <div class="item-row">
+          <a class="title" href="#">Project Two</a>
+          <span class="date mono">2025</span>
+        </div>
+        <p class="desc">One-line description of what it is and why it exists.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Writings</h2>
+
+    <div class="item">
+      <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-notebook-pen"></use></svg></div></div>
+      <div class="item-body">
+        <div class="item-row">
+          <a class="title" href="https://medium.com/design-bootcamp/how-i-turned-a-static-design-system-into-an-ai-teammate-a1e87feb43a9" target="_blank" rel="noopener">How I turned a static design system into an AI teammate</a>
+          <span class="date mono">Jul 2026</span>
+        </div>
+        <p class="desc">A solo designer turns a design system into leverage.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-notebook-pen"></use></svg></div></div>
+      <div class="item-body">
+        <div class="item-row">
+          <a class="title" href="https://medium.com/optimize-your-design-engine-getting-started-with-designops-even-as-a-team-of-one-2df346595471" target="_blank" rel="noopener">Optimize your design engine: getting started with DesignOps (even as a team of one)</a>
+          <span class="date mono">Apr 2025</span>
+        </div>
+        <p class="desc">A practical guide to building scalable DesignOps as a team of one.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© <span id="copyright-year"></span> I Putu Dana Putra</span>
+    <a href="mailto:danaputu09@gmail.com">danaputu09@gmail.com</a>
+  </footer>
+
+</main>
+<script>
+  document.getElementById('copyright-year').textContent = new Date().getFullYear();
+  // scramble-and-settle hover effect for section headers
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  // avatar looks toward the cursor anywhere on the page, using 9 pre-shot frames
+  (() => {
+    const img = document.getElementById('avatar-img');
+    if (!img) return;
+    const FRAMES = ['Center', 'Top', 'Top-Right', 'Right', 'Below-Right', 'Below', 'Below-Left', 'Left', 'Top-Left'];
+    // preload so swapping frames is instant, not a fresh disk fetch each time
+    FRAMES.forEach((f) => { new Image().src = `assets/avatar/${f}.png`; });
+
+    const DEAD_ZONE = 24; // px from center before it looks away from Center
+    let current = 'Center';
+    let rect = img.getBoundingClientRect();
+    window.addEventListener('resize', () => { rect = img.getBoundingClientRect(); });
+
+    let queued = false, lastEvent = null;
+    const update = () => {
+      queued = false;
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = lastEvent.clientX - cx;
+      const dy = lastEvent.clientY - cy;
+      const dist = Math.hypot(dx, dy);
+
+      let next = 'Center';
+      if (dist > DEAD_ZONE) {
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI); // -180..180, 0 = right
+        if (angle >= -22.5 && angle < 22.5) next = 'Right';
+        else if (angle >= 22.5 && angle < 67.5) next = 'Below-Right';
+        else if (angle >= 67.5 && angle < 112.5) next = 'Below';
+        else if (angle >= 112.5 && angle < 157.5) next = 'Below-Left';
+        else if (angle >= 157.5 || angle < -157.5) next = 'Left';
+        else if (angle >= -157.5 && angle < -112.5) next = 'Top-Left';
+        else if (angle >= -112.5 && angle < -67.5) next = 'Top';
+        else next = 'Top-Right';
+      }
+
+      if (next !== current) {
+        current = next;
+        img.src = `assets/avatar/${next}.png`;
+      }
+    };
+
+    document.addEventListener('mousemove', (e) => {
+      lastEvent = e;
+      if (!queued) { queued = true; requestAnimationFrame(update); }
+    });
+  })();
+
+  document.querySelectorAll('section > h2').forEach((el) => {
+    const original = el.textContent;
+    let frame = 0, raf = null;
+
+    const scramble = () => {
+      frame++;
+      el.textContent = original
+        .split('')
+        .map((ch, i) => {
+          if (ch === ' ') return ' ';
+          const revealAt = i * 2; // letters lock in left-to-right
+          if (frame >= revealAt + 8) return ch;
+          return CHARS[Math.floor(Math.random() * CHARS.length)];
+        })
+        .join('');
+      if (frame < original.length * 2 + 8) {
+        raf = requestAnimationFrame(scramble);
+      } else {
+        el.textContent = original;
+      }
+    };
+
+    el.addEventListener('mouseenter', () => {
+      cancelAnimationFrame(raf);
+      frame = 0;
+      scramble();
+    });
+  });
+</script>
+</body>
+</html>
