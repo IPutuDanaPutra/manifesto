@@ -118,6 +118,10 @@
     background: #f7f7f5; border: 1px solid var(--rule); border-radius: 12px;
   }
   .item-icon svg { width: 20px; height: 20px; color: var(--ink-faint); }
+  .item-icon svg use[href="#icon-notebook-pen"] {
+    color: #d4d3cf;
+    filter: drop-shadow(0 -1px 0.5px rgba(0,0,0,0.18)) drop-shadow(0 1px 0.5px rgba(255,255,255,0.9));
+  }
   .item-icon-front {
     position: absolute; z-index: 2; inset: 8px;
     border: 1px solid var(--rule); border-radius: 8px;
@@ -131,6 +135,31 @@
     font-weight: 500;
   }
   .item a.title:hover { text-decoration: underline; }
+  .item a.title[target="_blank"] { cursor: none; }
+
+  .cursor-label {
+    position: fixed; top: 0; left: 0; z-index: 50;
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1.05rem 0.5rem 0.6rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.05));
+    backdrop-filter: blur(12px) saturate(2.2);
+    -webkit-backdrop-filter: blur(12px) saturate(2.2);
+    color: #161616;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.82rem; font-weight: 400; white-space: nowrap;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.45);
+    box-shadow:
+      0 8px 28px rgba(0,0,0,0.14),
+      0 1px 2px rgba(0,0,0,0.06),
+      inset 0 1.5px 1px rgba(255,255,255,0.95),
+      inset 0 -1px 2px rgba(0,0,0,0.05);
+    pointer-events: none;
+    opacity: 0; transform: translate(-50%, -50%) scale(0.85);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .cursor-label svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .cursor-label.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   .item .date {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.78rem; color: var(--ink-faint); white-space: nowrap;
@@ -264,9 +293,28 @@
     <a href="mailto:danaputu09@gmail.com">danaputu09@gmail.com</a>
   </footer>
 
+  <div class="cursor-label" id="cursor-label">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm13.3 12.94c-.1-.05-.15-.2-.15-.301V8.006c0-.1.05-.25.15-.351l.955-1.105V6.5H14.84l-2.56 6.478L9.366 6.5H5.852v.05l.903 1.256c.201.2.251.502.251.753v5.523c.05.302 0 .653-.15.954L5.5 16.894v.05h3.616v-.05L7.76 15.087c-.15-.302-.201-.603-.15-.954V9.11c.05.1.1.1.15.301l3.414 7.633h.05L14.54 8.76c-.05.3-.05.652-.05.904v5.925c0 .15-.05.25-.15.351l-1.005.954v.05h4.921v-.05l-.954-.954z"/></svg>
+    Read on Medium
+  </div>
+
 </main>
 <script>
   document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+  // custom cursor pill on Writing links, following the mouse
+  (() => {
+    const label = document.getElementById('cursor-label');
+    if (!label) return;
+    document.addEventListener('mousemove', (e) => {
+      label.style.left = e.clientX + 'px';
+      label.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('.item a.title[target="_blank"]').forEach((link) => {
+      link.addEventListener('mouseenter', () => label.classList.add('active'));
+      link.addEventListener('mouseleave', () => label.classList.remove('active'));
+    });
+  })();
   // scramble-and-settle hover effect for section headers
   const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   // avatar looks toward the cursor anywhere on the page, using 9 pre-shot frames
