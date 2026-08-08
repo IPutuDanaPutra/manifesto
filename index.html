@@ -118,7 +118,7 @@
     background: #f7f7f5; border: 1px solid var(--rule); border-radius: 12px;
   }
   .item-icon svg { width: 20px; height: 20px; color: var(--ink-faint); }
-  .item-icon svg use[href="#icon-notebook-pen"] {
+  .item-icon svg use[href="#icon-notebook-pen"], .item-icon svg use[href="#icon-brain"], .item-icon svg use[href="#icon-file-braces"] {
     color: #d4d3cf;
     filter: drop-shadow(0 -1px 0.5px rgba(0,0,0,0.18)) drop-shadow(0 1px 0.5px rgba(255,255,255,0.9));
   }
@@ -165,6 +165,49 @@
     font-size: 0.78rem; color: var(--ink-faint); white-space: nowrap;
   }
   .item .desc { margin: 0.3rem 0 0; color: var(--ink-soft); font-size: 0.94rem; }
+
+  .book-wrap { display: flex; justify-content: center; padding: 1.5rem 0 1rem; }
+  .book { display: block; perspective: 900px; width: 196px; filter: drop-shadow(10px 14px 18px rgba(0,0,0,0.18)); cursor: none; }
+  .book-inner {
+    aspect-ratio: 318 / 474;
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    transform: rotateY(-26deg);
+    transition: transform 0.4s ease;
+  }
+  .book:hover .book-inner { transform: rotateY(-32deg) scale(1.04); }
+  .book-cover {
+    position: absolute; inset: 0;
+    border-radius: 2px 5px 5px 2px;
+    box-shadow:
+      0 1.8px 3.6px rgba(0,0,0,.05),
+      0 10.8px 21.6px rgba(0,0,0,.12),
+      inset 0 -0.9px 0 rgba(0,0,0,.1),
+      inset 0 1.8px 1.8px hsla(0,0%,100%,.4),
+      inset 3.6px 0 3.6px rgba(0,0,0,.08);
+    overflow: hidden;
+  }
+  .book-cover-art { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .book-spine-shade {
+    position: absolute; inset-block: 0; left: 0; width: 9%;
+    background:
+      linear-gradient(90deg, hsla(0,0%,100%,0), hsla(0,0%,100%,0) 12%, hsla(0,0%,100%,.25) 29.25%, hsla(0,0%,100%,0) 50.5%, hsla(0,0%,100%,0) 75.25%, hsla(0,0%,100%,.25) 91%, hsla(0,0%,100%,0)),
+      linear-gradient(90deg, rgba(0,0,0,.03), rgba(0,0,0,.1) 12%, transparent 30%, rgba(0,0,0,.02) 50%, rgba(0,0,0,.2) 73.5%, rgba(0,0,0,.5) 75.25%, rgba(0,0,0,.15) 85.25%, transparent);
+    mix-blend-mode: overlay;
+  }
+  .book-pages {
+    position: absolute; top: 7px; height: calc(100% - 14px);
+    width: 12px;
+    background: repeating-linear-gradient(90deg, #fff, #f3f3f1 1.5px, #fff 3px, #dcdcd8 4px);
+    transform: translateX(188.5px) rotateY(90deg) translateX(6px);
+  }
+  .book-back {
+    position: absolute; inset: -1px;
+    background: #efe9db;
+    border-radius: 3px 6px 6px 3px;
+    transform: translateZ(-14px);
+  }
 
   footer {
     margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule);
@@ -215,6 +258,36 @@
     <path d="M2 18h4"></path>
     <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"></path>
   </symbol>
+  <symbol id="icon-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 18V5"></path>
+    <path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"></path>
+    <path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"></path>
+    <path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"></path>
+    <path d="M18 18a4 4 0 0 0 2-7.464"></path>
+    <path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"></path>
+    <path d="M6 18a4 4 0 0 1-2-7.464"></path>
+    <path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"></path>
+  </symbol>
+  <symbol id="icon-file-braces" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path>
+    <path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
+    <path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"></path>
+    <path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"></path>
+  </symbol>
+  <symbol id="icon-github" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M94,7399 C99.523,7399 104,7403.59 104,7409.253 C104,7413.782 101.138,7417.624 97.167,7418.981 C96.66,7419.082 96.48,7418.762 96.48,7418.489 C96.48,7418.151 96.492,7417.047 96.492,7415.675 C96.492,7414.719 96.172,7414.095 95.813,7413.777 C98.04,7413.523 100.38,7412.656 100.38,7408.718 C100.38,7407.598 99.992,7406.684 99.35,7405.966 C99.454,7405.707 99.797,7404.664 99.252,7403.252 C99.252,7403.252 98.414,7402.977 96.505,7404.303 C95.706,7404.076 94.85,7403.962 94,7403.958 C93.15,7403.962 92.295,7404.076 91.497,7404.303 C89.586,7402.977 88.746,7403.252 88.746,7403.252 C88.203,7404.664 88.546,7405.707 88.649,7405.966 C88.01,7406.684 87.619,7407.598 87.619,7408.718 C87.619,7412.646 89.954,7413.526 92.175,7413.785 C91.889,7414.041 91.63,7414.493 91.54,7415.156 C90.97,7415.418 89.522,7415.871 88.63,7414.304 C88.63,7414.304 88.101,7413.319 87.097,7413.247 C87.097,7413.247 86.122,7413.234 87.029,7413.87 C87.029,7413.87 87.684,7414.185 88.139,7415.37 C88.139,7415.37 88.726,7417.2 91.508,7416.58 C91.513,7417.437 91.522,7418.245 91.522,7418.489 C91.522,7418.76 91.338,7419.077 90.839,7418.982 C86.865,7417.627 84,7413.783 84,7409.253 C84,7403.59 88.478,7399 94,7399" transform="translate(-84, -7399)"></path>
+  </symbol>
+  <symbol id="icon-medium" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm13.3 12.94c-.1-.05-.15-.2-.15-.301V8.006c0-.1.05-.25.15-.351l.955-1.105V6.5H14.84l-2.56 6.478L9.366 6.5H5.852v.05l.903 1.256c.201.2.251.502.251.753v5.523c.05.302 0 .653-.15.954L5.5 16.894v.05h3.616v-.05L7.76 15.087c-.15-.302-.201-.603-.15-.954V9.11c.05.1.1.1.15.301l3.414 7.633h.05L14.54 8.76c-.05.3-.05.652-.05.904v5.925c0 .15-.05.25-.15.351l-1.005.954v.05h4.921v-.05l-.954-.954z"></path>
+  </symbol>
+  <symbol id="icon-shopping-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 10a4 4 0 0 1-8 0"></path>
+    <path d="M3.103 6.034h17.794"></path>
+    <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"></path>
+  </symbol>
+  <symbol id="icon-amazon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M.045 18.02c.072-.116.187-.124.348-.022 3.636 2.11 7.594 3.166 11.87 3.166 2.852 0 5.668-.533 8.447-1.595l.315-.14c.138-.06.234-.1.293-.13.226-.088.39-.046.525.13.12.174.09.336-.12.48-.256.19-.6.41-1.006.654-1.244.743-2.64 1.316-4.185 1.726a17.617 17.617 0 01-10.951-.577 17.88 17.88 0 01-5.43-3.35c-.1-.074-.151-.15-.151-.22 0-.047.021-.09.051-.13zm6.565-6.218c0-1.005.247-1.863.743-2.577.495-.71 1.17-1.25 2.04-1.615.796-.335 1.756-.575 2.912-.72.39-.046 1.033-.103 1.92-.174v-.37c0-.93-.105-1.558-.3-1.875-.302-.43-.78-.65-1.44-.65h-.182c-.48.046-.896.196-1.246.46-.35.27-.575.63-.675 1.096-.06.3-.206.465-.435.51l-2.52-.315c-.248-.06-.372-.18-.372-.39 0-.046.007-.09.022-.15.247-1.29.855-2.25 1.82-2.88.976-.616 2.1-.975 3.39-1.05h.54c1.65 0 2.957.434 3.888 1.29.135.15.27.3.405.48.12.165.224.314.283.45.075.134.15.33.195.57.06.254.105.42.135.51.03.104.062.3.076.615.01.313.02.493.02.553v5.28c0 .376.06.72.165 1.036.105.313.21.54.315.674l.51.674c.09.136.136.256.136.36 0 .12-.06.226-.18.314-1.2 1.05-1.86 1.62-1.963 1.71-.165.135-.375.15-.63.045a6.062 6.062 0 01-.526-.496l-.31-.347a9.391 9.391 0 01-.317-.42l-.3-.435c-.81.886-1.603 1.44-2.4 1.665-.494.15-1.093.227-1.83.227-1.11 0-2.04-.343-2.76-1.034-.72-.69-1.08-1.665-1.08-2.94l-.05-.076zm3.753-.438c0 .566.14 1.02.425 1.364.285.34.675.512 1.155.512.045 0 .106-.007.195-.02.09-.016.134-.023.166-.023.614-.16 1.08-.553 1.424-1.178.165-.28.285-.58.36-.91.09-.32.12-.59.135-.8.015-.195.015-.54.015-1.005v-.54c-.84 0-1.484.06-1.92.18-1.275.36-1.92 1.17-1.92 2.43l-.035-.02zm9.162 7.027c.03-.06.075-.11.132-.17.362-.243.714-.41 1.05-.5a8.094 8.094 0 011.612-.24c.14-.012.28 0 .41.03.65.06 1.05.168 1.172.33.063.09.099.228.099.39v.15c0 .51-.149 1.11-.424 1.8-.278.69-.664 1.248-1.156 1.68-.073.06-.14.09-.197.09-.03 0-.06 0-.09-.012-.09-.044-.107-.12-.064-.24.54-1.26.806-2.143.806-2.64 0-.15-.03-.27-.087-.344-.145-.166-.55-.257-1.224-.257-.243 0-.533.016-.87.046-.363.045-.7.09-1 .135-.09 0-.148-.014-.18-.044-.03-.03-.036-.047-.02-.077 0-.017.006-.03.02-.063v-.06z"></path>
+  </symbol>
 </svg>
 <div class="edge-fade top"><i></i><i></i><i></i></div>
 <div class="edge-fade bottom"><i></i><i></i><i></i></div>
@@ -240,24 +313,24 @@
     <h2>Projects</h2>
 
     <div class="item">
-      <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-doc"></use></svg></div></div>
+      <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-brain"></use></svg></div></div>
       <div class="item-body">
         <div class="item-row">
-          <a class="title" href="#">Project One</a>
-          <span class="date mono">2026</span>
+          <a class="title" href="https://github.com/IPutuDanaPutra/illustration-craft" target="_blank" rel="noopener" data-cursor-icon="github" data-cursor-text="View on GitHub">illustration-craft</a>
+          <span class="date mono">Aug 2026</span>
         </div>
-        <p class="desc">One-line description of what it is and why it exists.</p>
+        <p class="desc">A guided illustration-generation skill for ChatGPT.</p>
       </div>
     </div>
 
     <div class="item">
-      <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-doc"></use></svg></div></div>
+      <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-file-braces"></use></svg></div></div>
       <div class="item-body">
         <div class="item-row">
-          <a class="title" href="#">Project Two</a>
-          <span class="date mono">2025</span>
+          <a class="title" href="https://github.com/IPutuDanaPutra/graphic-designer-json" target="_blank" rel="noopener" data-cursor-icon="github" data-cursor-text="View on GitHub">graphic-designer-json</a>
+          <span class="date mono">Aug 2026</span>
         </div>
-        <p class="desc">One-line description of what it is and why it exists.</p>
+        <p class="desc">A JSON template for on-brand AI marketing designs.</p>
       </div>
     </div>
   </section>
@@ -269,7 +342,7 @@
       <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-notebook-pen"></use></svg></div></div>
       <div class="item-body">
         <div class="item-row">
-          <a class="title" href="https://medium.com/design-bootcamp/how-i-turned-a-static-design-system-into-an-ai-teammate-a1e87feb43a9" target="_blank" rel="noopener">How I turned a static design system into an AI teammate</a>
+          <a class="title" href="https://medium.com/design-bootcamp/how-i-turned-a-static-design-system-into-an-ai-teammate-a1e87feb43a9" target="_blank" rel="noopener" data-cursor-icon="medium" data-cursor-text="Read on Medium">How I turned a static design system into an AI teammate</a>
           <span class="date mono">Jul 2026</span>
         </div>
         <p class="desc">A solo designer turns a design system into leverage.</p>
@@ -280,11 +353,27 @@
       <div class="item-icon"><div class="item-icon-front"><svg><use href="#icon-notebook-pen"></use></svg></div></div>
       <div class="item-body">
         <div class="item-row">
-          <a class="title" href="https://medium.com/optimize-your-design-engine-getting-started-with-designops-even-as-a-team-of-one-2df346595471" target="_blank" rel="noopener">Optimize your design engine: getting started with DesignOps (even as a team of one)</a>
+          <a class="title" href="https://medium.com/optimize-your-design-engine-getting-started-with-designops-even-as-a-team-of-one-2df346595471" target="_blank" rel="noopener" data-cursor-icon="medium" data-cursor-text="Read on Medium">Optimize your design engine: getting started with DesignOps (even as a team of one)</a>
           <span class="date mono">Apr 2025</span>
         </div>
         <p class="desc">A practical guide to building scalable DesignOps as a team of one.</p>
       </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Currently Reading</h2>
+    <div class="book-wrap">
+      <a class="book" href="https://www.amazon.com/s?k=Train+Dreams+Denis+Johnson" target="_blank" rel="noopener" data-cursor-icon="amazon" data-cursor-text="Buy on Amazon">
+        <div class="book-inner">
+          <div class="book-pages"></div>
+          <div class="book-back"></div>
+          <div class="book-cover">
+            <img class="book-cover-art" src="https://covers.openlibrary.org/b/id/7079698-L.jpg" alt="Train Dreams by Denis Johnson">
+            <div class="book-spine-shade"></div>
+          </div>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -294,8 +383,8 @@
   </footer>
 
   <div class="cursor-label" id="cursor-label">
-    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm13.3 12.94c-.1-.05-.15-.2-.15-.301V8.006c0-.1.05-.25.15-.351l.955-1.105V6.5H14.84l-2.56 6.478L9.366 6.5H5.852v.05l.903 1.256c.201.2.251.502.251.753v5.523c.05.302 0 .653-.15.954L5.5 16.894v.05h3.616v-.05L7.76 15.087c-.15-.302-.201-.603-.15-.954V9.11c.05.1.1.1.15.301l3.414 7.633h.05L14.54 8.76c-.05.3-.05.652-.05.904v5.925c0 .15-.05.25-.15.351l-1.005.954v.05h4.921v-.05l-.954-.954z"/></svg>
-    Read on Medium
+    <svg id="cursor-label-icon"><use href="#icon-medium"></use></svg>
+    <span id="cursor-label-text">Read on Medium</span>
   </div>
 
 </main>
@@ -310,8 +399,14 @@
       label.style.left = e.clientX + 'px';
       label.style.top = e.clientY + 'px';
     });
-    document.querySelectorAll('.item a.title[target="_blank"]').forEach((link) => {
-      link.addEventListener('mouseenter', () => label.classList.add('active'));
+    const iconEl = document.getElementById('cursor-label-icon');
+    const textEl = document.getElementById('cursor-label-text');
+    document.querySelectorAll('.item a.title[target="_blank"], .book[target="_blank"]').forEach((link) => {
+      link.addEventListener('mouseenter', () => {
+        iconEl.innerHTML = `<use href="#icon-${link.dataset.cursorIcon}"></use>`;
+        textEl.textContent = link.dataset.cursorText || '';
+        label.classList.add('active');
+      });
       link.addEventListener('mouseleave', () => label.classList.remove('active'));
     });
   })();
