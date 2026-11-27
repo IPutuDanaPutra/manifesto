@@ -26,3 +26,7 @@ Then open `http://localhost:8000`.
 3. Open a PR (template in `.github/`) and merge. The merge ships to production.
 
 Rollback: Vercel dashboard → Deployments → Instant Rollback. Agent rules live in `CLAUDE.md`.
+
+## Quality gate
+
+PRs run Lighthouse CI (`.github/workflows/lighthouse.yml`, `lighthouserc.json`) on the static files, desktop preset: Performance ≥ 90, Accessibility / Best Practices / SEO ≥ 95. Run locally with `npx -y @lhci/cli@0.15.x autorun`.
