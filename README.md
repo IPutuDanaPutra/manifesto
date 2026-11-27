@@ -12,7 +12,8 @@ Then open `http://localhost:8000`.
 
 ## Structure
 
-- `index.html` — the whole site
+- `index.html`, `style.css`, `main.js` — the site (no inline CSS/JS, so the CSP in `vercel.json` stays strict)
+- `assets/fonts/` — self-hosted variable fonts (latin subset)
 - `assets/avatar/` — directional portrait frames for the cursor-tracking avatar
 - `assets/logos/` — brand marks shown in the status line
 
