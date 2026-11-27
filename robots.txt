@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dana-engineering-portfolio.vercel.app/sitemap.xml

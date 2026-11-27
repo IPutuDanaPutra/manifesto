@@ -1,0 +1,16 @@
+# Dana (I Putu Dana Putra)
+
+> Design Systems Architect, Design Engineer, Experience Designer, and DesignOps practitioner. Currently at Farmacare. Writes and builds small, well-made things at the intersection of engineering, AI, and design.
+
+## Projects
+- [DESIGN.md to Figma](https://www.figma.com/community/plugin/1673736865256019639/design-md-to-figma): Figma plugin that turns a DESIGN.md file into Variables, Color Styles, Text Styles, and a documentation frame.
+- [illustration-craft](https://github.com/IPutuDanaPutra/illustration-craft): A guided illustration-generation skill for ChatGPT.
+- [graphic-designer-json](https://github.com/IPutuDanaPutra/graphic-designer-json): A JSON template for on-brand AI marketing designs.
+
+## Writing
+- [How I turned a static design system into an AI teammate](https://medium.com/design-bootcamp/how-i-turned-a-static-design-system-into-an-ai-teammate-a1e87feb43a9): A solo designer turns a design system into leverage.
+- [Optimize your design engine: getting started with DesignOps (even as a team of one)](https://medium.com/optimize-your-design-engine-getting-started-with-designops-even-as-a-team-of-one-2df346595471): A practical guide to building scalable DesignOps as a team of one.
+
+## Elsewhere
+- [LinkedIn](https://www.linkedin.com/in/iputudanaputra/)
+- [GitHub](https://github.com/IPutuDanaPutra)
