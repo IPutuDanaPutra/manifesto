@@ -30,3 +30,7 @@ Rollback: Vercel dashboard → Deployments → Instant Rollback. Agent rules liv
 ## Quality gate
 
 PRs run Lighthouse CI (`.github/workflows/lighthouse.yml`, `lighthouserc.json`) on the static files, desktop preset: Performance ≥ 90, Accessibility / Best Practices / SEO ≥ 95. Run locally with `npx -y @lhci/cli@0.15.x autorun`.
+
+## Changing the domain
+
+The production URL appears in `index.html` (canonical, `og:url`, JSON-LD `url`/`image`), `robots.txt`, and `sitemap.xml`. When a custom domain is set: `grep -rn "dana-engineering-portfolio.vercel.app" .` and replace every hit. OG image: add `og:image` and switch `twitter:card` to `summary_large_image` once a 1200×630 image exists in `assets/`.
