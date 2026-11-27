@@ -19,7 +19,7 @@ Then open `http://localhost:8000`.
 
 ## Workflow
 
-`main` is production (Vercel auto-deploys it). It is not branch-protected, so by convention nothing is pushed to it directly:
+`main` is production (Vercel auto-deploys it) and is protected by the `protect-main` ruleset (PR required, linear history, no force-push). Flow:
 
 1. Branch off `main`, commit, push.
 2. Open the Preview URL Vercel creates for the branch and check it.
