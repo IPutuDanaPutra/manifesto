@@ -7,7 +7,7 @@ _Last updated: 2026-11-28_
 ## Current state
 - **Site:** single static page (`index.html`, `style.css`, `main.js`). Live at https://dana-engineering-portfolio.vercel.app
 - **Deploy:** Vercel, Git-connected. `main` = Production; branches/PRs = Preview. Previews are login-protected (Vercel Authentication, covers previews + per-deployment production URLs; the main production domain is public).
-- **GitHub:** public repo, `protect-main` ruleset (PR required, linear history, no force-push, no deletion, required check `lighthouse`). Secret scanning + push protection on.
+- **GitHub:** public repo, `protect-main` ruleset (PR required, linear history, no force-push, no deletion, required checks `lighthouse` and `status-updated`). Secret scanning + push protection on.
 - **CI:** `.github/workflows/lighthouse.yml` runs LHCI on `/index.html` only (desktop preset): Performance ≥ 90; Accessibility, Best Practices, SEO ≥ 95.
 - **Status check:** `.github/workflows/status.yml` (`status-updated`) fails a PR that changes non-doc files without touching this file. Docs/markdown-only PRs pass; add the `skip-status` label for a PR that changes nothing recorded here.
 - **Security:** `vercel.json` headers. CSP is `'self'` only, no `unsafe-inline`; fonts, cover, and libraries are self-hosted.
@@ -19,7 +19,7 @@ _Last updated: 2026-11-28_
 - 2026-11-27: self-host everything and keep CSS/JS out of the HTML, so new libraries never require CSP edits.
 - 2026-11-27: mobile Lighthouse ~61 was measurement noise (same code scored 77–100 under machine load); not a code problem, no mobile gate.
 - 2026-11-28: GitHub "keep email private" + "block pushes that expose my email" are on.
-- 2026-11-28: STATUS.md is enforced by the `status-updated` check (required once added to the ruleset), because convention alone is not enforced.
+- 2026-11-28: STATUS.md is enforced by the `status-updated` check (required in the ruleset since 2026-11-28), because convention alone is not enforced.
 - Domain change is a grep-and-replace of the vercel.app URL; steps in README. Professional email will move to the custom domain then.
 
 ## Open / next
