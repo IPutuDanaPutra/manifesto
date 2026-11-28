@@ -1,8 +1,9 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": ".",
-      "url": ["/index.html"],
+      "startServerCommand": "npm run start -- -p 3100",
+      "startServerReadyPattern": "Ready",
+      "url": ["http://localhost:3100/"],
       "numberOfRuns": 3,
       "settings": {
         "preset": "desktop",

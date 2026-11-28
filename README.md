@@ -1,36 +1,39 @@
 # dana-portfolio
 
-A single-page personal site — projects, writing, and notes on engineering, AI, and design. No framework, no build step: plain HTML and CSS.
+Personal portfolio: projects, writing, and notes on engineering, AI, and design. Next.js (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 4.
 
 ## Run locally
 
 ```
-python3 -m http.server 8000
+npm ci
+npm run dev        # http://localhost:3000
 ```
 
-Then open `http://localhost:8000`.
+Checks (all run in CI): `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm run build`.
 
 ## Structure
 
-- `index.html`, `style.css`, `main.js` — the site (no inline CSS/JS, so the CSP in `vercel.json` stays strict)
-- `assets/fonts/` — self-hosted variable fonts (latin subset)
-- `assets/avatar/` — directional portrait frames for the cursor-tracking avatar
-- `assets/logos/` — brand marks shown in the status line
+- `app/` — routes, layout/metadata, `globals.css` (Tailwind theme tokens + component styles), `robots.ts`, `sitemap.ts`
+- `components/` — UI. Server Components by default; only interactive ones (`avatar`, `cursor-label`, `section-heading`) are Client Components
+- `lib/site.ts` — the production URL and site metadata (one place to change on a domain move)
+- `lib/content.ts` — typed project/writing/book data
+- `proxy.ts` — per-request CSP nonce (strict `script-src`, no `unsafe-inline`)
+- `public/` — static assets served as-is: `assets/` (avatar frames, fonts, logos, favicon), `llms.txt`, the Search Console verification file (keep it)
 
 ## Workflow
 
-`main` is production (Vercel auto-deploys it) and is protected by the `protect-main` ruleset (PR required, linear history, no force-push). Flow:
+`main` is production (Vercel auto-deploys it) and is protected by the `protect-main` ruleset (PR required, linear history, no force-push, required checks). Flow:
 
 1. Branch off `main`, commit, push.
 2. Open the Preview URL Vercel creates for the branch and check it.
 3. Open a PR (template in `.github/`) and merge. The merge ships to production.
 
-Rollback: Vercel dashboard → Deployments → Instant Rollback. Agent rules live in `CLAUDE.md`.
+Rollback: Vercel dashboard → Deployments → Instant Rollback. Agent rules live in `CLAUDE.md`; project state in `docs/STATUS.md`.
 
-## Quality gate
+## Quality gates
 
-PRs run Lighthouse CI (`.github/workflows/lighthouse.yml`, `lighthouserc.json`) on the static files, desktop preset: Performance ≥ 90, Accessibility / Best Practices / SEO ≥ 95. Run locally with `npx -y @lhci/cli@0.15.x autorun`.
+PRs run `CI` (typecheck, lint, format, build), `Lighthouse` (built app, desktop preset: Performance ≥ 90; Accessibility / Best Practices / SEO ≥ 95), and `Status` (non-doc changes must update `docs/STATUS.md`). Run Lighthouse locally with `npm run build && npx -y @lhci/cli@0.15.x autorun`.
 
 ## Changing the domain
 
-The production URL appears in `index.html` (canonical, `og:url`, JSON-LD `url`/`image`), `robots.txt`, and `sitemap.xml`. When a custom domain is set: `grep -rn "dana-engineering-portfolio.vercel.app" .` and replace every hit. OG image: add `og:image` and switch `twitter:card` to `summary_large_image` once a 1200×630 image exists in `assets/`.
+Change `SITE_URL` in `lib/site.ts`; canonical, Open Graph, JSON-LD, `robots` and `sitemap` all derive from it. Then follow the checklist in `docs/STATUS.md`. OG image: add `openGraph.images` in `app/layout.tsx` and switch `twitter.card` to `summary_large_image` once a 1200×630 image exists in `public/assets/`.
