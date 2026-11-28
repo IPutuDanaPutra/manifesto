@@ -19,6 +19,7 @@ _Last updated: 2026-11-28_
 - 2026-11-27: self-host everything and keep CSS/JS out of the HTML, so new libraries never require CSP edits.
 - 2026-11-27: mobile Lighthouse ~61 was measurement noise (same code scored 77–100 under machine load); not a code problem, no mobile gate.
 - 2026-11-28: GitHub "keep email private" + "block pushes that expose my email" are on.
+- 2026-11-28: repo renamed `manifesto` → `dana-portfolio` (GitHub redirects the old URL). The Vercel project keeps its own name, `dana-engineering-portfolio`; the site URL is unchanged.
 - 2026-11-28: STATUS.md is enforced by the `status-updated` check (required in the ruleset since 2026-11-28), because convention alone is not enforced.
 - Domain change is a grep-and-replace of the vercel.app URL; steps in README. Professional email will move to the custom domain then.
 
