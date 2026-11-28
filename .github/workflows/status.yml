@@ -1,0 +1,34 @@
+name: Status
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  status-updated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require docs/STATUS.md for non-doc changes
+        env:
+          BASE: ${{ github.base_ref }}
+          LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+        run: |
+          if echo "$LABELS" | grep -q '"skip-status"'; then
+            echo "skip-status label present; skipping."; exit 0
+          fi
+          changed=$(git diff --name-only "origin/$BASE...HEAD")
+          echo "$changed"
+          # docs and markdown-only PRs don't need a status update
+          code=$(echo "$changed" | grep -vE '^docs/|\.md$' || true)
+          if [ -n "$code" ] && ! echo "$changed" | grep -qx 'docs/STATUS.md'; then
+            echo "::error::This PR changes non-doc files but not docs/STATUS.md. Update it, or add the 'skip-status' label if nothing in it changed."
+            exit 1
+          fi

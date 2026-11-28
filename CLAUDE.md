@@ -2,7 +2,7 @@
 
 ## Session protocol (survives context compaction)
 - At session start, and again after any context compaction, read this file and `docs/STATUS.md` before acting. They are the source of truth, not chat memory.
-- When a decision is made, a task finishes, or a gotcha is learned, update `docs/STATUS.md` in the same PR as the change. Keep it short; prune done items.
+- When a decision is made, a task finishes, or a gotcha is learned, update `docs/STATUS.md` in the same PR as the change. Keep it short; prune done items. The `status-updated` check enforces this; use the `skip-status` label only when nothing recorded there changed.
 - This repo is public: never put secrets, tokens, account/project IDs, or private emails in any file, including docs.
 - Outward-facing or hard-to-reverse actions (merge, settings changes, publishing) need the owner's explicit go-ahead, even if a similar one was approved earlier.
 
