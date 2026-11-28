@@ -21,7 +21,7 @@ _Last updated: 2026-11-28_
 - 2026-11-28: repo renamed `manifesto` → `dana-portfolio` (GitHub redirects the old URL). The Vercel project keeps its own name, `dana-engineering-portfolio`; the site URL is unchanged.
 - 2026-11-28: STATUS.md is enforced by the `status-updated` check (required in the ruleset since 2026-11-28), because convention alone is not enforced.
 - 2026-11-28: migrating to Next.js + React + TypeScript + Tailwind for DX and richer UX (UI SDK, command menu, MDX case studies). Next.js chosen over Vite/Astro; Tailwind chosen over keeping plain CSS (existing component CSS is kept in `globals.css` and converted gradually). `typescript` pinned to ~6.0 (typescript-eslint supports <6.1).
-- 2026-11-28: CSP stays strict via nonce. Rule: if Preview TTFB rises materially (>~150 ms) or Performance stays below the 90 gate, fall back to static HTML + `'unsafe-inline'` for scripts and record why here.
+- 2026-11-28: CSP stays strict via nonce, owner's explicit choice over static + `'unsafe-inline'`. Measured cost on Vercel (median TTFB, same `vercel curl` path): static 153 ms vs Next per-request 714 ms (default region) / 490 ms (`sin1`, spikes to ~1.8 s on cold start); no CDN cache. If Search Console Core Web Vitals or Lighthouse suffer, revisit: static + `'unsafe-inline'` for scripts brings TTFB back to ~150 ms.
 - Professional email will move to the custom domain when it arrives (footer in `app/page.tsx`).
 
 ## Open / next
@@ -38,9 +38,10 @@ _Last updated: 2026-11-28_
 5. Re-run Lighthouse CI and check headers; update this file.
 
 ## Migration findings
-- Production's old HTML had `<svg hidden>` for the icon sprite; `hidden` does not apply to SVG, so it rendered as a 300×150 box and pushed the whole page ~158 px down. The port hides it properly, so content now starts ~158 px higher. Everything else matched within sub-pixel text rendering. Owner to decide whether to add deliberate top spacing.
+- Production's old HTML had `<svg hidden>` for the icon sprite; `hidden` does not apply to SVG, so it rendered as a 300×150 box and pushed the whole page ~158 px down. The port hides it properly, so content now starts ~158 px higher. Everything else matched within sub-pixel text rendering. Owner decided to keep the fix (no extra spacing).
 - Next.js emits inline scripts, so `script-src 'self'` alone breaks hydration; the nonce approach was verified in a real browser (no CSP violations, interactions work).
-- Next.js adds ~136 KB JS; local Lighthouse under load gave Performance 58–89 (noisy machine); CI runner results decide.
+- Next.js adds ~136 KB JS; local Lighthouse on a loaded laptop was noisy (58–89), but the CI runner passes the Performance ≥ 90 gate.
+- Vercel functions run in `sin1` (`vercel.json` `regions`) to cut per-request latency for Asian visitors.
 
 ## Gotchas
 - `gh pr merge` may print a git error about `main` being checked out in another worktree; the merge still succeeds. Verify with `gh pr view <n> --json state`.
