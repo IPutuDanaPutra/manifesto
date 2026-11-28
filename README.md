@@ -1,4 +1,4 @@
-# manifesto
+# dana-portfolio
 
 A single-page personal site — projects, writing, and notes on engineering, AI, and design. No framework, no build step: plain HTML and CSS.
 
