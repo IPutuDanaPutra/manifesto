@@ -1,5 +1,13 @@
 # Working agreement
 
+## Session protocol (survives context compaction)
+- At session start, and again after any context compaction, read this file and `docs/STATUS.md` before acting. They are the source of truth, not chat memory.
+- When a decision is made, a task finishes, or a gotcha is learned, update `docs/STATUS.md` in the same PR as the change. Keep it short; prune done items.
+- This repo is public: never put secrets, tokens, account/project IDs, or private emails in any file, including docs.
+- Outward-facing or hard-to-reverse actions (merge, settings changes, publishing) need the owner's explicit go-ahead, even if a similar one was approved earlier.
+
+## Rules
+
 Static site, no build. Vercel deploys from GitHub: `main` = Production, every other branch/PR = Preview.
 
 - Never commit or push directly to `main`. The `protect-main` ruleset enforces PR-only, linear history, no force-push and no deletion; pushes are rejected.
