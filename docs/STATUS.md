@@ -29,6 +29,13 @@ _Last updated: 2026-11-28_
 3. Content phase (the real portfolio value): per-project case studies, Experience & Skills, strong contact/CTA. Needs owner input first: target role(s), provable impact numbers (Farmacare/Samsung/Uxcel), NDA limits, single page vs separate pages.
 4. Optional: request indexing for `/` in Search Console; custom domain.
 
+## When the official domain arrives (align everything)
+1. Vercel: add the domain, set it primary, 301-redirect the old `vercel.app` URL to it. Decide then whether to rename the Vercel project to match `dana-portfolio`.
+2. Code (one PR): replace the vercel.app URL in `index.html` (canonical, `og:url`, JSON-LD), `robots.txt`, `sitemap.xml`; swap the footer email to the domain address.
+3. Search Console: add a Domain property (DNS TXT), resubmit `sitemap.xml`; keep the old property to watch the redirect.
+4. Profiles: update LinkedIn, GitHub, Medium and any link to the old URL or repo name.
+5. Re-run Lighthouse CI and check headers; update this file.
+
 ## Gotchas
 - `gh pr merge` may print a git error about `main` being checked out in another worktree; the merge still succeeds. Verify with `gh pr view <n> --json state`.
 - Deleting a PR's base branch auto-closes stacked child PRs; recreate against `main`.
