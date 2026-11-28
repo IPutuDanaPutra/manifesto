@@ -7,7 +7,7 @@ _Last updated: 2026-11-28_
 ## Current state
 - **Stack (live since 2026-11-28, PR #13):** Next.js 16 App Router, React 19, TypeScript 6.0 strict, Tailwind 4, npm.
 - **Site:** https://dana-engineering-portfolio.vercel.app. Deploy: Vercel, Git-connected, `vercel.json` sets `framework: nextjs`. `main` = Production; branches/PRs = Preview. Previews are login-protected.
-- **GitHub:** public repo `dana-portfolio`, `protect-main` ruleset (PR required, linear history, no force-push, no deletion, required checks `lighthouse` and `status-updated`; `check` still to be added). Secret scanning + push protection on.
+- **GitHub:** public repo `dana-portfolio`, `protect-main` ruleset (PR required, linear history, no force-push, no deletion, required checks `check`, `lighthouse`, `status-updated`; `check` added 2026-11-28). Secret scanning + push protection on.
 - **CI:** `ci.yml` (`check`: typecheck, lint, format, build), `lighthouse.yml` (LHCI on the built app, desktop: Performance ≥ 90; Accessibility, Best Practices, SEO ≥ 95), `status.yml` (`status-updated`: non-doc changes must update this file; `skip-status` label opts out).
 - **Security:** strict CSP via per-request nonce in `proxy.ts` (no `unsafe-inline`), plus nosniff / Referrer-Policy / Permissions-Policy / X-Frame-Options in `next.config.ts`. Because of the nonce the page is rendered per request (`Cache-Control: no-store`), not served from CDN cache.
 - **SEO/GEO:** metadata API (title, description, canonical, OG/Twitter `summary`, no image yet), JSON-LD `Person` (no email), `robots.ts`, `sitemap.ts`, `public/llms.txt`. All URLs derive from `lib/site.ts`.
@@ -25,12 +25,11 @@ _Last updated: 2026-11-28_
 - Professional email will move to the custom domain when it arrives (footer in `app/page.tsx`).
 
 ## Open / next
-1. Add `check` (CI job) to the `protect-main` required checks (needs owner go-ahead).
-2. UX with UI SDK (`@ui-sdk/react`, beta, pin exact): command menu (⌘K), project preview dialog. Use only where it earns its keep; mind the 136 KB JS baseline and the Performance gate.
-3. Recheck Search Console: sitemap status, and Core Web Vitals now that pages render per request.
-4. OG image (1200×630): owner is designing it. Then add `openGraph.images` in `app/layout.tsx`, switch `twitter.card` to `summary_large_image`.
-5. Content phase: per-project case studies (MDX), Experience & Skills, contact/CTA. Needs owner input: target role(s), provable impact numbers (Farmacare/Samsung/Uxcel), NDA limits, single page vs separate pages.
-6. Custom domain later (checklist below).
+1. UX with UI SDK (`@ui-sdk/react`, beta, pin exact): command menu (⌘K), project preview dialog. Use only where it earns its keep; mind the 136 KB JS baseline and the Performance gate.
+2. Recheck Search Console: sitemap status, and Core Web Vitals now that pages render per request.
+3. OG image (1200×630): owner is designing it. Then add `openGraph.images` in `app/layout.tsx`, switch `twitter.card` to `summary_large_image`.
+4. Content phase: per-project case studies (MDX), Experience & Skills, contact/CTA. Needs owner input: target role(s), provable impact numbers (Farmacare/Samsung/Uxcel), NDA limits, single page vs separate pages.
+5. Custom domain later (checklist below).
 
 ## When the official domain arrives (align everything)
 1. Vercel: add the domain, set it primary, 301-redirect the old `vercel.app` URL to it. Decide then whether to rename the Vercel project to match `dana-portfolio`.
